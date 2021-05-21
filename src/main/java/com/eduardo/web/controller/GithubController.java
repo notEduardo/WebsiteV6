@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @CrossOrigin
 public class GithubController {
-	String token =System.getenv("GIT_KEY");
+	String token = System.getenv("GIT_KEY");
 	String projurl = "https://api.github.com/users/notEduardo/repos";
 	String readurlStart = "https://api.github.com/repos/notEduardo/";
 	String readurlEnd = "/readme";
@@ -42,6 +42,9 @@ public class GithubController {
 			for(int i=0; i < json.size(); i++) {
 				JSONObject returnO = new JSONObject();
 				JSONObject o = (JSONObject) json.get(i);
+				if((boolean)o.get("fork")) {
+					continue;
+				}
 				String pName = (String) o.get("name");
 				returnO.put("title", pName);
 				returnO.put("link", o.get("html_url"));
